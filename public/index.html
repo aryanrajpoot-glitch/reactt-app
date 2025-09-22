@@ -1,8 +1,13 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+<head>
+  <meta charset="UTF-8" />  
+
+
+  <!--react wala jo indexx se niakala tha -->
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -17,27 +22,177 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+      It will be replaced with the URL of the public folder during the build.
+      Only files inside the public folder can be referenced from the HTML.
 
       Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
       work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
+      Learn how to configure a non-root public URL by running npm run build.
     -->
     <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+
+
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>✨ Indore Travel Planner</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Fredoka+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" href="https://img.icons8.com/color/48/india.png">
+
+  <!-- Link to your CSS file -->
+  <link rel="stylesheet" href="style.css">
+
+  <!--for desigined lodout button-->
+  <style>
+  .logout-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+}
+.logout-btn {
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.logout-btn:hover {
+  background: #d32f2f;
+}
+</style>
+</head>
+<!-- adding this for login page-->
+ <script>
+  // Check if user is logged in
+  if (localStorage.getItem('isLoggedIn') !== 'true') {
+    alert('⚠ Please login first!');
+    window.location.href = 'login.html';
+  }
+
+  // Optional: Show username on page
+  document.addEventListener('DOMContentLoaded', function() {
+    const username = localStorage.getItem('username');
+    if (username) {
+      // Example: if you have an element with id="welcome", show username
+      const welcomeElement = document.getElementById('welcome');
+      if (welcomeElement) {
+        welcomeElement.textContent = 'Welcome, ' + username + '!';
+      }
+    }
+  });
+</script>
+<!--adding this for log out button-->
+<script>
+  function logout() {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('username');
+    alert('👋 Logged out successfully.');
+    window.location.href = 'login.html';
+  }
+</script>
+
+<body>
+  <!--react wala jo indexx se niakala tha -->
+   <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+  <h2 id="welcome">Welcome!</h2>
+
+  <div class="logout-container">
+  <button onclick="logout()" class="logout-btn">🚪 Logout</button>
+  </div>
+
+
+  <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;"></canvas>
+
+  <header>
+    <div class="hero-content">
+      <h1>✨ Indore Travel Planner</h1>
+  
+      <div class="location-badge">
+        <i class="fas fa-map-marker-alt"></i> Indore, Madhya Pradesh 🇮🇳
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Destinations -->
+    <section>
+      <h2><i class="fas fa-landmark"></i> Top Destinations</h2>
+      <div class="card-container" id="destinations"></div>
+    </section>
+
+    <!-- Hotels -->
+    <section>
+      <h2><i class="fas fa-hotel"></i> Hotel Stays</h2>
+      <div class="card-container" id="hotels"></div>
+    </section>
+
+    <!-- Transport -->
+    <section>
+      <h2><i class="fas fa-bus"></i> Transport Info</h2>
+      <ul class="transport-info">
+        <li><i class="fas fa-scooter"></i> Auto: ₹30–₹50</li>
+        <li><i class="fas fa-car"></i> Cab: ₹8–₹12/km</li>
+        <li><i class="fas fa-key"></i> Car rental: ₹1500–₹2500/day</li>
+        <li><i class="fas fa-train"></i> Railway: Indore Junction (INDB)</li>
+        <li><i class="fas fa-plane"></i> Airport: Devi Ahilya Bai Holkar (IDR)</li>
+      </ul>
+    </section>
+
+    <!-- Expense Tracker -->
+    <section>
+      <h2><i class="fas fa-wallet"></i> 💸 Expense Tracker</h2>
+      <div class="expense-form">
+        <input type="text" id="item" placeholder="e.g., Poha, Hotel" />
+        <input type="number" id="amount" placeholder="₹ Amount" step="0.01" min="0.01" />
+        <button onclick="addExpense()">Add</button>
+      </div>
+      <div id="list"></div>
+      <div class="total" id="total">Total: ₹0.00</div>
+      <div class="action-buttons">
+        <button onclick="saveTrip()" class="btn-save">💾 Save</button>
+        <button onclick="resetExpenses()" class="btn-reset">🗑 Reset</button>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section>
+      <h2><i class="fas fa-question-circle"></i> FAQ</h2>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggle(this)">Best time to visit? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">October to March — perfect weather!</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggle(this)">Safe for solo travelers? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">Yes! Indore is clean, safe, and friendly.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggle(this)">Must-try foods? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">Poha, Jalebi, Garadu, Bhutte ka Kees!</div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <p1>✨ Made by AURA group<i class="fas fa-heart"></i> </p1>
+    <p> Indore Travel Planner</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script src="script.js"></script>
+</body>
 </html>
